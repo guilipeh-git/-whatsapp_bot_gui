@@ -9,7 +9,7 @@ app = Flask("__name__")
 @app.route("/")
 def paginaInicial():
     
-    texto = """Mensagem que será enviada pelo bot..."""
+    texto = ""
     open_aqv('lista_nums.txt')
     nums = [num for num in open('lista_nums.txt')]
     

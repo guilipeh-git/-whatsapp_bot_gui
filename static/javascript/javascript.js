@@ -1,10 +1,21 @@
 class Msg_bot{
     constructor (){
-        this.listaNums = [['Joao',"99819788"],["Gui","99819788"]];
+        this.listaNums = [];
         this.linhaTable();
         this.editar = "nulo";
         this.startBot = true;
+        this.btnTbl();
         
+    }
+    btnTbl(){
+        if(this.listaNums.length <= 0){
+            this.dqs("#btnNovoC").value = "Adicionar Número"
+            this.dqs("table").style.display="none";
+        }
+        else{
+            this.dqs("#btnNovoC").value = "Novo Número"
+            this.dqs("table").style.display="";
+        }
     }
     toCapitalize(str){
         str = str.toLowerCase();
@@ -17,8 +28,11 @@ class Msg_bot{
     init(){
         
         const textMsg = this.dqs("#textarea");
-        textMsg.innerHTML = this.dqs("#hidden").value;
-        
+        if(this.dqs("#hidden").value.split(" ").join("") == ""){
+            textMsg.innerHTML = "Click em Editar para adicionar uma mensagem.";
+        }else{
+            textMsg.innerHTML = this.dqs("#hidden").value;
+        }
 
     }
     editarMsg(){
@@ -82,7 +96,7 @@ class Msg_bot{
             }
             else{
                 if(file.value != "" && cont == 0){
-                    alert(file.value.substring(12) + " Não é um arquivo excel ou não termina com a extensão .xlsx \nArquivo não importado!");
+                    alert(file.value.substring(12) + " Não é um arquivo excel. \nArquivo não importado!");
                     file.value = "";
                     this.dqs("#namefile").innerHTML = "";
                     cont = 1;
@@ -132,9 +146,10 @@ class Msg_bot{
             imgDel.setAttribute("onclick",`msg_bot.deletar(${i})`)
             
             acao.appendChild(imgDel)
-            this.dqs("#qtdNum").innerHTML = `${i}/150`
-
+            //this.dqs("#qtdNum").innerHTML = `${i-1}/150`
+            
         }
+        this.dqs("#qtdNum").innerHTML = `${this.listaNums.length}/150`
     }
     adicionaLista(x){
         this.listaNums.push([this.toCapitalize(this.dqs("#inputNome").value) || "",x]);
@@ -171,6 +186,7 @@ class Msg_bot{
                 }
 
             }
+            this.btnTbl();
             
         }
         else if(this.editar != 'nulo'){
@@ -194,7 +210,7 @@ class Msg_bot{
     }
     
     editarTable(indice){
-        
+        this.startBot = false;
         this.dqs("#inputNovoNum").style.display = "block";
         this.dqs("#inputNumero").focus();
         this.dqs("#inputNome").value = this.listaNums[indice-1][0];
@@ -218,17 +234,28 @@ class Msg_bot{
         const inputNovoNum = this.dqs("#inputNovoNum");
         const namefile = this.dqs("#namefile");
         const msg = this.dqs("#hidden").value.split(" ").join("");
-        console.log(msg)
-        if(msg.length == 0){
-            alert("O campo mensagem não pode está vazio!");
+        //console.log(namefile.innerText)
+        if(this.listaNums.length <= 0 && namefile.innerText.split(" ").join("") == ""){
+            alert("Adicione algum número de telefone para que o bot sejá iniciado!");
+        
+        }else{
+            if(msg.length == 0 && this.startBot == true && this.dqs("#btnEditar").value.toLowerCase() == "editar"){
+                alert("O bot não pode ser iniciado enquanto o campo  de mensagem estiver vazio!");
+            }
+            if(btnEditar.value.toLowerCase() == "salvar" || this.startBot == false){
+                
+                alert("O bot só será iniciado quando todos os campos estiverem salvos!");
+            }else if(btnEditar.value.toLowerCase() == "editar" && this.startBot == true && msg.length !=0 ){
+                this.dqs("#submitBtn").setAttribute("type","submit");
+                this.dqs("body").style.visibility="hidden";
+                this.dqs("#loud").style.display="block";
+                
+                
+            }
         }
-        if(btnEditar.value.toLowerCase() == "salvar" || this.startBot == false){
-            
-            alert("O bot só será iniciado quando todos os campos estiverem salvos!");
-        }else if(btnEditar.value.toLowerCase() == "editar" && this.startBot == true && msg.length !=0 ){
-            alert("bot iniciado");
-        }
+        
     }
+    
     
 }
 
