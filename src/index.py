@@ -1,4 +1,6 @@
 #flask==2.0.2
+#pip install gunicorn <= servidor heroku
+#pip freeze > requirements.txt
 
 from flask import Flask,render_template,redirect,url_for,request
 from openAqv import arquivoNum,open_aqv
