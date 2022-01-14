@@ -33,33 +33,8 @@ try:
                     except:
                         num =[str(num) for num in filtra("numeros")[0]]
                     trataMsg = lambda x: [str(msg) for msg in filtra(x)[0]]
-                    try:
-                        msg = trataMsg("mensagem")
-                    except:
-                        try:
-                            msg = trataMsg("menssagem")
-                        except:
-                            try:
-                                msg = trataMsg("mesagem")
-                            except:
-                                try:
-                                    msg = trataMsg("messagem")
-                                except:
-                                    try:
-                                        msg = trataMsg("mesagem")
-                                    except:
-                                        try:
-                                            msg = trataMsg("mesage")
-                                        except:
-                                            try:
-                                                msg = trataMsg("message")
-                                            except:
-                                                try:
-                                                    msg = trataMsg("menssage")
-                                                except:
-                                                    msg = trataMsg("mensage")
-                                                
-                    return [f"{nomes[i]}, {num[i].replace('.0','')},{msg[i]}" for i in range(len(num))]
+                    
+                    return [f"{nomes[i]}, {num[i].replace('.0','')},{'msg[i]'}" for i in range(len(num))]
                 except:
                     return fraseErro()  
                 

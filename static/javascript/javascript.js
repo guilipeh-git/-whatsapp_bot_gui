@@ -187,6 +187,7 @@ class Msg_bot{
 
             }
             this.btnTbl();
+            this.dqs("#np").value = this.listaNums;
             
         }
         else if(this.editar != 'nulo'){
@@ -205,7 +206,7 @@ class Msg_bot{
                 this.cancelar(2);
                 
                 this.editar = "nulo";
-
+                this.dqs("#np").value = this.listaNums;
         }}
     }
     

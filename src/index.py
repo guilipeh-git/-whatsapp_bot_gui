@@ -25,8 +25,14 @@ def respostaPg():
     if(request.method == "POST"):
         listaNum = list()
         textu = request.form["msgHidden"]
+        try:
+            with open("mensagem.txt","w")  as mensagem:
+                mensagem.write(textu)
+        except:
+            print("mensagem não armazenada...")
         nums = request.form["np"].split(",")
         
+        #print(nums)
         
         try:
             file = request.files.get("file")  
@@ -35,9 +41,19 @@ def respostaPg():
                 file.save(os.path.join("src","tabela.xlsx"))
         except:
             pass
-            
+        nomes = []
+        numeros = [] 
+        for c in range(len(nums)):
+            if(c%2 == 0):
+                if(nums[c] == ""):
+                    nums[c] = "nan"
+                
+                nomes.append(nums[c])
+                #print(nums[c])
+            else:
+                numeros.append(nums[c])
         
-        for num in nums:
+        for num in numeros:
             
             #print(num)
             num = str(num).replace(" ","").replace("-","")
@@ -51,7 +67,8 @@ def respostaPg():
                 #print(listaNum)
                 arquivoNum(listaNum,"salvar")
         
-        listaNum = [["nan",numero,textu] for numero in listaNum]
+        listaNum = [[nomes[numero],listaNum[numero],textu] for numero in range(len(listaNum))]
+        print(listaNum)
         try:
             if(resp(".xlsx") != -1 or len(listaNum) > 0):
                 botWhatsapp(listaNum)      
